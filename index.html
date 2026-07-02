@@ -346,6 +346,88 @@ section{position:relative;}
   #lightbox .lb-close{top:14px;right:14px;}
 }
 
+/* ============ VIDEO GALLERY ============ */
+.video-section{padding:110px 0;background:var(--black);}
+.video-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin-top:50px;
+}
+.video-item{
+  position:relative;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  border-radius:2px;
+  background:var(--black-card);
+  border:1px solid var(--gray-line);
+  cursor:pointer;
+}
+.video-item.no-video{cursor:default;}
+.video-item video{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .8s var(--ease), filter .8s var(--ease);
+  filter:grayscale(.15) contrast(1.02);
+}
+.video-item .video-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.55) 100%);
+  opacity:.55;transition:opacity .5s var(--ease);
+}
+.video-item .play-button{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(.82);
+  width:64px;height:64px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--gray-line);
+  background:rgba(10,10,10,.35);
+  backdrop-filter:blur(6px);
+  color:var(--off-white);
+  opacity:0;
+  transition:all .45s var(--ease);
+}
+.video-item .play-button svg{width:20px;height:20px;margin-left:3px;}
+.video-item:hover video{transform:scale(1.08);filter:grayscale(0) contrast(1.05);}
+.video-item:hover .video-overlay{opacity:.72;}
+.video-item:hover .play-button{opacity:1;transform:translate(-50%,-50%) scale(1);box-shadow:0 0 26px var(--glow);border-color:var(--off-white);}
+.video-item.no-video .video-overlay{opacity:.75;}
+.video-item.no-video::after{
+  content:'Vidéo à venir';
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:var(--font-head);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gray-1);
+  z-index:2;
+}
+.video-item.no-video .play-button{display:none;}
+
+@media(max-width:900px){.video-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.video-grid{grid-template-columns:1fr;}}
+
+.video-modal{
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(8,8,7,.97);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .4s var(--ease);
+}
+.video-modal.active{opacity:1;pointer-events:auto;}
+.video-modal video{
+  width:min(86vw,900px);
+  max-height:82vh;
+  box-shadow:0 30px 90px rgba(0,0,0,.6);
+  background:#000;
+}
+.video-modal .vm-close{
+  position:absolute;top:26px;right:26px;
+  width:52px;height:52px;border-radius:50%;
+  border:1px solid var(--gray-line);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s var(--ease);
+  color:var(--off-white);
+}
+.video-modal .vm-close:hover{border-color:var(--off-white);box-shadow:0 0 20px var(--glow);}
+.video-modal .vm-close svg{width:18px;height:18px;}
+@media(max-width:700px){.video-modal .vm-close{top:14px;right:14px;width:42px;height:42px;}}
+
 /* ============ WORLD MAP ============ */
 #world{padding:140px 0;background:var(--black-soft);overflow:hidden;}
 #world .wrap{position:relative;}
@@ -470,20 +552,11 @@ footer{
   <div class="hero-grain"></div>
   <div class="hero-content">
     <span class="hero-tag">Breaking · Depuis 2003</span>
-    <h1 class="hero-title">ERVANN</h1>
-
-<p class="hero-sub">
-  --Valence et alentours 26--
-
-</p>
-
-<p class="hero-sub">
-
-  Danseur pro , formateur et compétiteur. 
-  Membre d'Immigrandz Crew &amp; Indigènes Crew — ASSO Pro Breaking 26.
-</p>
-
-<div class="hero-socials">
+    <h1>ERVANN</h1>
+    <p c
+    <p class="hero-sub">VALENCE et ALENTOURS 26.</p>
+    <p class="hero-sub">Danseur PRO, formateur et compétiteur. Membre d'Immigrandz Crew &amp; Indigènes Crew — ASSO Pro Breaking 26.</p>
+    <div class="hero-socials">
       <!-- 🔧 Liens réseaux sociaux : Instagram + Mail -->
       <a class="pill-btn" href="https://www.instagram.com/ervann__imgz_indgn/" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1"/></svg>
@@ -533,6 +606,53 @@ footer{
   </div>
 </section>
 
+<!-- ============ VIDEO GALLERY ============ -->
+<section class="video-section" id="video-gallery">
+  <div class="wrap">
+    <div class="eyebrow">En mouvement</div>
+    <h3 class="section-title reveal">Galerie Vidéo</h3>
+    <!-- 🔧 Pour ajouter/changer une vidéo : remplacer uniquement l'URL du data-src ci-dessous (fichier .mp4 ou .mov) -->
+    <div class="video-grid">
+      <div class="video-item reveal">
+        <video muted loop playsinline preload="metadata" data-src="https://res.cloudinary.com/dkm8cbylh/video/upload/v1782995678/0702_2_bqbgte.mov"></video>
+        <div class="video-overlay"></div>
+        <button class="play-button" aria-label="Lire la vidéo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+      </div>
+      <div class="video-item reveal">
+        <video muted loop playsinline preload="metadata" data-src=""></video>
+        <div class="video-overlay"></div>
+        <button class="play-button" aria-label="Lire la vidéo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+      </div>
+      <div class="video-item reveal">
+        <video muted loop playsinline preload="metadata" data-src=""></video>
+        <div class="video-overlay"></div>
+        <button class="play-button" aria-label="Lire la vidéo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+      </div>
+      <div class="video-item reveal">
+        <video muted loop playsinline preload="metadata" data-src=""></video>
+        <div class="video-overlay"></div>
+        <button class="play-button" aria-label="Lire la vidéo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+      </div>
+      <div class="video-item reveal">
+        <video muted loop playsinline preload="metadata" data-src=""></video>
+        <div class="video-overlay"></div>
+        <button class="play-button" aria-label="Lire la vidéo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+      </div>
+      <div class="video-item reveal">
+        <video muted loop playsinline preload="metadata" data-src=""></video>
+        <div class="video-overlay"></div>
+        <button class="play-button" aria-label="Lire la vidéo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VIDEO MODAL ============ -->
+<div id="videoModal" class="video-modal">
+  <button class="vm-close" id="vmClose" aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <video id="modalVideo" controls playsinline></video>
+</div>
+
 <!-- ============ WORLD MAP ============ -->
 <section id="world">
   <div class="wrap">
@@ -580,7 +700,7 @@ footer{
       <div class="class-card">
         <div class="num">03</div>
         <div>
-          <h4>Gymnase du Cosec Velence</h4>
+          <h4>Gymnase du Cosec Valence</h4>
           <p class="meta"><b>Niveau :</b> Débutant &amp; Intermédiaire<br><b>Jour :</b> Lundi<br><b>Horaires :</b> 18h – 19h</p>
         </div>
       </div>
@@ -768,6 +888,45 @@ document.addEventListener('keydown', e=>{
   if(e.key==='Escape') closeLightbox();
   if(e.key==='ArrowLeft') showDelta(-1);
   if(e.key==='ArrowRight') showDelta(1);
+});
+
+/* ---------- video gallery ---------- */
+const videoModal = document.getElementById('videoModal');
+const modalVideo = document.getElementById('modalVideo');
+const vmClose = document.getElementById('vmClose');
+
+document.querySelectorAll('.video-item').forEach(item=>{
+  const video = item.querySelector('video');
+  const src = video.dataset.src;
+
+  if(!src){
+    /* pas d'URL renseignée : carte affichée en "à venir", non cliquable */
+    item.classList.add('no-video');
+    return;
+  }
+
+  /* la vidéo sert de miniature (posée sur sa 1ère image, en pause) */
+  video.src = src;
+
+  item.addEventListener('click', ()=>{
+    modalVideo.src = src;
+    videoModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    modalVideo.play().catch(()=>{});
+  });
+});
+
+function closeVideoModal(){
+  videoModal.classList.remove('active');
+  modalVideo.pause();
+  modalVideo.removeAttribute('src');
+  modalVideo.load();
+  document.body.style.overflow = '';
+}
+vmClose.addEventListener('click', closeVideoModal);
+videoModal.addEventListener('click', e=>{ if(e.target===videoModal) closeVideoModal(); });
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape' && videoModal.classList.contains('active')) closeVideoModal();
 });
 
 /* ---------- nav mobile toggle ---------- */
