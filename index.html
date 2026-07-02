@@ -56,10 +56,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 #preloader .logo-glow{
   position:absolute;
-  width:min(90vw,760px);
-  height:min(90vw,760px);
+  width:min(100vw,980px);
+  height:min(100vw,980px);
   border-radius:50%;
-  background:radial-gradient(circle, rgba(243,239,230,.32) 0%, rgba(243,239,230,.12) 35%, rgba(243,239,230,0) 68%);
+  background:radial-gradient(circle, rgba(243,239,230,.34) 0%, rgba(243,239,230,.13) 35%, rgba(243,239,230,0) 68%);
   filter:blur(6px);
   opacity:0;
   animation:glowBreathe 4.5s ease-in-out infinite;
@@ -71,13 +71,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 #preloader img{
   position:relative;
-  width:min(64vw,460px);
+  width:min(88vw,720px);
   opacity:0;
   transform:scale(.82);
   filter:
-    drop-shadow(0 0 40px rgba(243,239,230,.55))
-    drop-shadow(0 0 90px rgba(243,239,230,.3))
-    drop-shadow(0 0 160px rgba(243,239,230,.16));
+    drop-shadow(0 0 50px rgba(243,239,230,.6))
+    drop-shadow(0 0 110px rgba(243,239,230,.34))
+    drop-shadow(0 0 200px rgba(243,239,230,.18));
 }
 #preloader .loader-line{
   position:absolute;bottom:14%;left:50%;transform:translateX(-50%);
@@ -191,6 +191,15 @@ section{position:relative;}
   letter-spacing:.01em;
   color:var(--off-white);
   text-shadow:0 6px 40px rgba(0,0,0,.6), 0 2px 12px rgba(0,0,0,.5);
+}
+#hero .hero-location{
+  font-family:var(--font-display);
+  font-size:clamp(1.5rem,4vw,2.5rem);
+  letter-spacing:.06em;
+  text-align:center;
+  color:var(--off-white-dim);
+  text-shadow:0 4px 24px rgba(0,0,0,.65);
+  margin-top:-40px;
 }
 #hero .hero-sub{
   font-family:var(--font-body);
@@ -462,6 +471,7 @@ footer{
   <div class="hero-content">
     <span class="hero-tag">Breaking · Depuis 2003</span>
     <h1>ERVANN</h1>
+    <p class="hero-location">Valence et alentours 26</p>
     <p class="hero-sub">Danseur, formateur et compétiteur. Membre d'Immigrandz Crew &amp; Indigènes Crew — Pro Breaking 26.</p>
     <div class="hero-socials">
       <!-- 🔧 Liens réseaux sociaux : Instagram + Mail -->
@@ -546,30 +556,22 @@ footer{
       <div class="class-card">
         <div class="num">01</div>
         <div>
-          <h4>Cours débutant</h4>
-          <!-- 🔧 À compléter : lieu / horaires / infos -->
-          <p class="meta"><b>Lieu :</b> À préciser<br><b>Horaires :</b> À préciser<br><b>Infos :</b> Bases du breaking, footwork &amp; toprock.</p>
+          <h4>MJC Chabeuil</h4>
+          <p class="meta"><b>Niveau :</b> Débutant &amp; Intermédiaire<br><b>Jour :</b> Vendredi<br><b>Horaires :</b> 17h30 – 18h30 (Débutant)<br>18h30 – 19h30 (Intermédiaire)</p>
         </div>
       </div>
       <div class="class-card">
         <div class="num">02</div>
         <div>
-          <h4>Cours intermédiaire</h4>
-          <p class="meta"><b>Lieu :</b> À préciser<br><b>Horaires :</b> À préciser<br><b>Infos :</b> Power moves, freeze &amp; musicalité.</p>
+          <h4>École Latin Addiction</h4>
+          <p class="meta"><b>Niveau :</b> Débutant &amp; Intermédiaire<br><b>Jour :</b> Jeudi<br><b>Horaires :</b> 17h45 – 18h45</p>
         </div>
       </div>
       <div class="class-card">
         <div class="num">03</div>
         <div>
-          <h4>Perfectionnement</h4>
-          <p class="meta"><b>Lieu :</b> À préciser<br><b>Horaires :</b> À préciser<br><b>Infos :</b> Style, battle training &amp; préparation compétition.</p>
-        </div>
-      </div>
-      <div class="class-card">
-        <div class="num">04</div>
-        <div>
-          <h4>Stages &amp; workshops</h4>
-          <p class="meta"><b>Lieu :</b> À préciser<br><b>Horaires :</b> À préciser<br><b>Infos :</b> Sessions ponctuelles, tous niveaux.</p>
+          <h4>Gymnase du Cosec</h4>
+          <p class="meta"><b>Niveau :</b> Débutant &amp; Intermédiaire<br><b>Jour :</b> Lundi<br><b>Horaires :</b> À définir</p>
         </div>
       </div>
     </div>
@@ -839,7 +841,7 @@ window.addEventListener('load', ()=>{
     .to('#preloader', {yPercent:-100, duration:.9, ease:'power4.inOut'}, '-=0.2')
     .set('#preloader', {display:'none'})
     .from('#hero h1', {y:60, opacity:0, duration:1, ease:'power4.out'}, '-=0.7')
-    .from('#hero .hero-sub, #hero .hero-tag, #hero .hero-socials', {y:24, opacity:0, duration:.9, stagger:.12, ease:'power3.out'}, '-=0.6');
+    .from('#hero .hero-location, #hero .hero-sub, #hero .hero-tag, #hero .hero-socials', {y:24, opacity:0, duration:.9, stagger:.12, ease:'power3.out'}, '-=0.6');
 
   // hero parallax
   gsap.to('.hero-bg', {
