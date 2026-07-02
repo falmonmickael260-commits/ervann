@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ervann — Danseur Breaking</title>
+<meta name="description" content="Ervann — Danseur de breaking depuis 2003. Immigrandz Crew, Indigènes Crew, Pro Breaking 26.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ============ RESET & BASE ============ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+:root{
+  --black:#0a0a0a;
+  --black-soft:#131311;
+  --black-card:#1a1a17;
+  --off-white:#f3efe6;
+  --off-white-dim:#cfcbc0;
+  --gray-1:#8a897f;
+  --gray-2:#3a3a35;
+  --gray-line:rgba(243,239,230,0.12);
+  --glow:rgba(243,239,230,0.35);
+  --ease:cubic-bezier(.16,.84,.44,1);
+  --font-display:'Bebas Neue',sans-serif;
+  --font-head:'Montserrat',sans-serif;
+  --font-body:'Poppins',sans-serif;
+}
+html,body{width:100%;overflow-x:hidden;background:var(--black);}
+body{
+  font-family:var(--font-body);
+  color:var(--off-white);
+  font-weight:300;
+  background:var(--black);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+::selection{background:var(--off-white);color:var(--black);}
+
+/* scrollbar */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:var(--gray-2);border-radius:10px;}
+
+/* ============ PRELOADER ============ */
+#preloader{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--black);
+  display:flex;align-items:center;justify-content:center;
+}
+#preloader .logo-glow{
+  position:absolute;
+  width:min(90vw,760px);
+  height:min(90vw,760px);
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(243,239,230,.32) 0%, rgba(243,239,230,.12) 35%, rgba(243,239,230,0) 68%);
+  filter:blur(6px);
+  opacity:0;
+  animation:glowBreathe 4.5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes glowBreathe{
+  0%,100%{transform:scale(1);opacity:.75;}
+  50%{transform:scale(1.08);opacity:1;}
+}
+#preloader img{
+  position:relative;
+  width:min(64vw,460px);
+  opacity:0;
+  transform:scale(.82);
+  filter:
+    drop-shadow(0 0 40px rgba(243,239,230,.55))
+    drop-shadow(0 0 90px rgba(243,239,230,.3))
+    drop-shadow(0 0 160px rgba(243,239,230,.16));
+}
+#preloader .loader-line{
+  position:absolute;bottom:14%;left:50%;transform:translateX(-50%);
+  width:120px;height:1px;background:var(--gray-2);overflow:hidden;
+}
+#preloader .loader-fill{
+  position:absolute;left:0;top:0;height:100%;width:0%;background:var(--off-white);
+}
+
+/* ============ LAYOUT HELPERS ============ */
+.wrap{max-width:1280px;margin:0 auto;padding:0 6vw;}
+section{position:relative;}
+.eyebrow{
+  font-family:var(--font-head);
+  font-size:.72rem;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:var(--gray-1);
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:22px;
+}
+.eyebrow::before{content:'';width:34px;height:1px;background:var(--gray-1);}
+.reveal{opacity:0;transform:translateY(38px);}
+
+/* ============ NAV ============ */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:26px 6vw;
+  mix-blend-mode:difference;
+  transition:padding .4s var(--ease);
+}
+#nav.scrolled{padding:16px 6vw;}
+#nav .logo-mark{
+  font-family:var(--font-display);
+  font-size:1.4rem;
+  letter-spacing:.12em;
+  color:var(--off-white);
+}
+#nav ul{list-style:none;display:flex;gap:38px;}
+#nav ul li a{
+  font-family:var(--font-head);
+  font-size:.7rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--off-white);
+  position:relative;
+  padding-bottom:4px;
+}
+#nav ul li a::after{
+  content:'';position:absolute;left:0;bottom:0;width:0%;height:1px;background:var(--off-white);
+  transition:width .35s var(--ease);
+}
+#nav ul li a:hover::after{width:100%;}
+#nav-toggle{display:none;flex-direction:column;gap:5px;z-index:600;}
+#nav-toggle span{width:24px;height:1px;background:var(--off-white);}
+
+@media(max-width:860px){
+  #nav ul{
+    position:fixed;inset:0;
+    background:var(--black);
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:34px;
+    transform:translateY(-100%);
+    transition:transform .5s var(--ease);
+    mix-blend-mode:normal;
+  }
+  #nav ul.open{transform:translateY(0);}
+  #nav ul li a{font-size:1rem;}
+  #nav-toggle{display:flex;}
+}
+
+/* ============ HERO ============ */
+#hero{
+  height:100svh;min-height:560px;
+  display:flex;align-items:flex-end;
+  position:relative;overflow:hidden;
+}
+#hero .hero-bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:50% 30%;
+  transform:scale(1.15);
+  will-change:transform;
+}
+#hero .hero-overlay{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(180deg, rgba(10,10,10,.4) 0%, rgba(10,10,10,.18) 28%, rgba(10,10,10,.62) 60%, rgba(10,10,10,.88) 82%, rgba(10,10,10,.97) 100%);
+}
+#hero .hero-grain{
+  position:absolute;inset:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+#hero .hero-content{
+  position:relative;z-index:2;
+  width:100%;
+  padding:0 6vw 8vw;
+  display:flex;flex-direction:column;gap:28px;
+}
+#hero .hero-tag{
+  font-family:var(--font-head);
+  font-size:.78rem;letter-spacing:.4em;text-transform:uppercase;color:var(--off-white-dim);
+  text-shadow:0 2px 16px rgba(0,0,0,.7);
+}
+#hero h1{
+  font-family:var(--font-display);
+  font-size:clamp(4.3rem,13.5vw,9.8rem);
+  line-height:.86;
+  letter-spacing:.01em;
+  color:var(--off-white);
+  text-shadow:0 6px 40px rgba(0,0,0,.6), 0 2px 12px rgba(0,0,0,.5);
+}
+#hero .hero-sub{
+  font-family:var(--font-body);
+  font-weight:300;
+  font-size:clamp(1.05rem,1.75vw,1.25rem);
+  color:var(--off-white-dim);
+  max-width:520px;
+  letter-spacing:.02em;
+  text-shadow:0 2px 18px rgba(0,0,0,.7);
+}
+#hero .hero-socials{
+  display:flex;gap:16px;margin-top:6px;flex-wrap:wrap;
+}
+.pill-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 26px;
+  border:1px solid var(--gray-line);
+  border-radius:100px;
+  font-family:var(--font-head);
+  font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--off-white);
+  transition:box-shadow .4s var(--ease), border-color .4s var(--ease), background .4s var(--ease);
+  backdrop-filter:blur(6px);
+  background:rgba(243,239,230,.02);
+}
+.pill-btn svg{width:15px;height:15px;flex-shrink:0;}
+.pill-btn:hover{
+  border-color:var(--off-white);
+  box-shadow:0 0 26px var(--glow);
+  background:rgba(243,239,230,.06);
+}
+#hero .scroll-cue{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  z-index:2;
+}
+#hero .scroll-cue span{
+  font-family:var(--font-head);font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gray-1);
+}
+#hero .scroll-cue .line{width:1px;height:34px;background:linear-gradient(var(--off-white),transparent);animation:scrollcue 1.8s infinite ease-in-out;}
+@keyframes scrollcue{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+/* ============ ABOUT ============ */
+#about{padding:min(18vw,190px) 0 130px;background:var(--black);}
+#about .about-grid{
+  display:grid;grid-template-columns:.9fr 1.4fr;gap:80px;align-items:start;
+}
+#about h2{
+  font-family:var(--font-display);
+  font-size:clamp(2.6rem,5vw,4.2rem);
+  line-height:.95;
+  color:var(--off-white);
+}
+#about .about-text p{
+  font-size:1.02rem;font-weight:300;color:var(--off-white-dim);margin-bottom:22px;max-width:640px;
+}
+#about .about-text p strong{color:var(--off-white);font-weight:500;}
+.stat-row{display:flex;gap:50px;margin-top:44px;flex-wrap:wrap;}
+.stat{border-top:1px solid var(--gray-line);padding-top:16px;min-width:110px;}
+.stat b{font-family:var(--font-display);font-size:2.6rem;display:block;color:var(--off-white);letter-spacing:.02em;}
+.stat span{font-family:var(--font-head);font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gray-1);}
+@media(max-width:860px){#about .about-grid{grid-template-columns:1fr;gap:36px;}}
+
+/* ============ GALLERY ============ */
+.gallery-section{padding:110px 0;}
+.gallery-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px;flex-wrap:wrap;gap:20px;}
+.gallery-head h3{
+  font-family:var(--font-display);font-size:clamp(2.2rem,4.4vw,3.6rem);color:var(--off-white);
+}
+.gallery-nav{display:flex;gap:10px;}
+.gallery-nav button{
+  width:48px;height:48px;border-radius:50%;border:1px solid var(--gray-line);
+  display:flex;align-items:center;justify-content:center;transition:all .35s var(--ease);
+}
+.gallery-nav button:hover{border-color:var(--off-white);box-shadow:0 0 20px var(--glow);}
+.gallery-nav svg{width:16px;height:16px;}
+
+.gallery-track{
+  display:flex;gap:18px;
+  overflow-x:auto;
+  scroll-snap-type:none;
+  cursor:grab;
+  padding-bottom:10px;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.gallery-track::-webkit-scrollbar{display:none;}
+.gallery-track.dragging{cursor:grabbing;}
+.gallery-item{
+  position:relative;
+  flex:0 0 auto;
+  width:min(78vw,300px);
+  height:400px;
+  scroll-snap-align:start;
+  overflow:hidden;
+  border-radius:2px;
+  background:var(--black-card);
+}
+.gallery-item img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .8s var(--ease), filter .8s var(--ease);
+  filter:grayscale(.15) contrast(1.02);
+}
+.gallery-item::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.75) 100%);
+  opacity:0;transition:opacity .5s var(--ease);
+}
+.gallery-item .idx{
+  position:absolute;bottom:16px;left:18px;z-index:2;
+  font-family:var(--font-head);font-size:.68rem;letter-spacing:.2em;color:var(--off-white);
+  opacity:0;transform:translateY(8px);transition:all .5s var(--ease);
+}
+.gallery-item:hover img{transform:scale(1.08);filter:grayscale(0) contrast(1.05);}
+.gallery-item:hover::after{opacity:1;}
+.gallery-item:hover .idx{opacity:1;transform:translateY(0);}
+
+/* ============ LIGHTBOX ============ */
+#lightbox{
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(8,8,7,.97);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .4s var(--ease);
+}
+#lightbox.active{opacity:1;pointer-events:auto;}
+#lightbox img{max-width:88vw;max-height:82vh;object-fit:contain;box-shadow:0 30px 90px rgba(0,0,0,.6);}
+#lightbox .lb-close,#lightbox .lb-prev,#lightbox .lb-next{
+  position:absolute;
+  width:52px;height:52px;border-radius:50%;
+  border:1px solid var(--gray-line);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s var(--ease);
+  color:var(--off-white);
+}
+#lightbox .lb-close:hover,#lightbox .lb-prev:hover,#lightbox .lb-next:hover{border-color:var(--off-white);box-shadow:0 0 20px var(--glow);}
+#lightbox .lb-close{top:26px;right:26px;}
+#lightbox .lb-prev{left:26px;top:50%;transform:translateY(-50%);}
+#lightbox .lb-next{right:26px;top:50%;transform:translateY(-50%);}
+#lightbox .lb-close svg,#lightbox .lb-prev svg,#lightbox .lb-next svg{width:18px;height:18px;}
+@media(max-width:700px){
+  #lightbox .lb-prev,#lightbox .lb-next{width:42px;height:42px;}
+  #lightbox .lb-prev{left:10px;}#lightbox .lb-next{right:10px;}
+  #lightbox .lb-close{top:14px;right:14px;}
+}
+
+/* ============ WORLD MAP ============ */
+#world{padding:140px 0;background:var(--black-soft);overflow:hidden;}
+#world .wrap{position:relative;}
+#world h2{
+  font-family:var(--font-display);
+  font-size:clamp(2.4rem,5vw,4rem);
+  margin-bottom:10px;color:var(--off-white);
+}
+#world p.sub{color:var(--gray-1);max-width:520px;font-size:.95rem;margin-bottom:60px;}
+.map-svg{width:100%;height:auto;display:block;}
+.map-node circle.dot{fill:var(--off-white);}
+.map-node circle.pulse{
+  fill:none;stroke:var(--off-white);stroke-width:1;
+  transform-origin:center;
+  animation:pulse 3s var(--ease) infinite;
+}
+.map-node text{
+  font-family:var(--font-head);font-size:11px;letter-spacing:.12em;text-transform:uppercase;fill:var(--off-white-dim);
+}
+.map-line{stroke:var(--gray-2);stroke-width:1;stroke-dasharray:3 5;fill:none;opacity:.7;}
+.map-hub circle{fill:var(--black-soft);stroke:var(--off-white);stroke-width:1.4;}
+.map-hub text{font-family:var(--font-head);font-size:12px;letter-spacing:.2em;fill:var(--off-white);}
+@keyframes pulse{0%{opacity:.9;transform:scale(.4);}80%{opacity:0;transform:scale(2.6);}100%{opacity:0;transform:scale(2.6);}}
+
+/* ============ CLASSES / COURS ============ */
+#classes{padding:130px 0;}
+.classes-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:50px;
+}
+.class-card{
+  border:1px solid var(--gray-line);
+  padding:34px 26px;
+  min-height:340px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  position:relative;overflow:hidden;
+  transition:border-color .4s var(--ease), transform .5s var(--ease);
+}
+.class-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 120%, rgba(243,239,230,.08), transparent 60%);
+  opacity:0;transition:opacity .5s var(--ease);
+}
+.class-card:hover{border-color:var(--off-white);transform:translateY(-6px);}
+.class-card:hover::before{opacity:1;}
+.class-card .num{font-family:var(--font-display);font-size:1rem;color:var(--gray-1);letter-spacing:.1em;}
+.class-card h4{font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin:20px 0 12px;color:var(--off-white);text-transform:uppercase;letter-spacing:.03em;}
+.class-card .meta{font-size:.85rem;color:var(--gray-1);line-height:1.7;}
+.class-card .meta b{color:var(--off-white-dim);font-weight:500;}
+@media(max-width:1000px){.classes-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.classes-grid{grid-template-columns:1fr;}}
+
+/* ============ CONTACT ============ */
+#contact{
+  padding:160px 0 110px;
+  text-align:center;
+  background:linear-gradient(180deg, var(--black) 0%, var(--black-soft) 100%);
+}
+#contact .eyebrow{justify-content:center;}
+#contact .eyebrow::before{display:none;}
+#contact h2{
+  font-family:var(--font-display);
+  font-size:clamp(2.6rem,8vw,6.4rem);
+  color:var(--off-white);
+  line-height:.95;
+  margin-bottom:36px;
+}
+#contact .contact-cta{
+  display:inline-flex;align-items:center;gap:14px;
+  padding:22px 46px;
+  border:1px solid var(--off-white);
+  border-radius:100px;
+  font-family:var(--font-head);font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;
+  transition:all .4s var(--ease);
+}
+#contact .contact-cta:hover{background:var(--off-white);color:var(--black);box-shadow:0 0 40px var(--glow);}
+#contact .contact-links{margin-top:50px;display:flex;gap:30px;justify-content:center;flex-wrap:wrap;}
+#contact .contact-links a{font-family:var(--font-head);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gray-1);border-bottom:1px solid transparent;padding-bottom:4px;transition:all .3s;}
+#contact .contact-links a:hover{color:var(--off-white);border-color:var(--off-white);}
+
+footer{
+  padding:34px 6vw;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;
+  border-top:1px solid var(--gray-line);
+  font-family:var(--font-head);font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gray-1);
+}
+
+/* generic section title used twice */
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(2.4rem,5vw,4rem);
+  color:var(--off-white);
+}
+</style>
+</head>
+<body>
+
+<!-- ============ PRELOADER ============ -->
+<div id="preloader">
+  <div class="logo-glow"></div>
+  <img src="https://res.cloudinary.com/dkm8cbylh/image/upload/v1782989716/ChatGPT_Image_2_juil._2026_12_49_28_jywxvr.png" alt="Logo Ervann">
+  <div class="loader-line"><div class="loader-fill"></div></div>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav id="nav">
+  <a href="#hero" class="logo-mark">ERVANN</a>
+  <button id="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul id="nav-list">
+    <li><a href="#about">Qui je suis</a></li>
+    <li><a href="#gallery-1">Galerie</a></li>
+    <li><a href="#world">Voyages</a></li>
+    <li><a href="#classes">Cours</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header id="hero">
+  <!-- 🔧 Image de fond hero : remplacer l'URL ci-dessous pour changer la bannière -->
+  <div class="hero-bg" style="background-image:url('https://res.cloudinary.com/dkm8cbylh/image/upload/v1782989995/Banieresite_gotsgo.jpg');"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <span class="hero-tag">Breaking · Depuis 2003</span>
+    <h1>ERVANN</h1>
+    <p class="hero-sub">Danseur, formateur et compétiteur. Membre d'Immigrandz Crew &amp; Indigènes Crew — Pro Breaking 26.</p>
+    <div class="hero-socials">
+      <!-- 🔧 Liens réseaux sociaux : Instagram + Mail -->
+      <a class="pill-btn" href="https://www.instagram.com/ervann__imgz_indgn/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1"/></svg>
+        Instagram
+      </a>
+      <a class="pill-btn" href="mailto:evana_26@hotmail.fr">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        Contact mail
+      </a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><div class="line"></div></div>
+</header>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="eyebrow">Qui je suis</div>
+      <h2 class="reveal">Vivre le<br>breaking.</h2>
+    </div>
+    <div class="about-text">
+      <p class="reveal"><strong>Danseur de breaking depuis 2003</strong>, je suis membre actif de plusieurs crews reconnus : <strong>Immigrandz Crew</strong> (Bordeaux) et <strong>Indigènes Crew</strong> (Montpellier), ainsi que de l'association <strong>Pro Breaking 26</strong> à Valence.</p>
+      <p class="reveal">Avec plus de <strong>15 ans d'expérience dans l'enseignement</strong>, j'ai développé une solide expertise que je transmets avec passion. Mon parcours m'a également amené à performer sur la scène nationale et internationale, en participant à de nombreux événements prestigieux à travers l'Europe et au-delà.</p>
+      <p class="reveal">J'ai eu l'opportunité de prendre part à des compétitions majeures telles que <strong>Battle of the Year, Break The Floor, ROBC, Battle Pro, Groove Session</strong> ou encore <strong>Money Time</strong>, affirmant ainsi mon engagement et mon niveau dans la culture breaking.</p>
+      <div class="stat-row reveal">
+        <div class="stat"><b>21+</b><span>Ans de pratique</span></div>
+        <div class="stat"><b>15+</b><span>Ans d'enseignement</span></div>
+        <div class="stat"><b>2</b><span>Crews</span></div>
+        <div class="stat"><b>8+</b><span>Pays parcourus</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY 1 ============ -->
+<section class="gallery-section" id="gallery-1">
+  <div class="wrap">
+    <div class="gallery-head">
+      <h3>Scène &amp; Battles</h3>
+      <div class="gallery-nav">
+        <button class="g-prev" data-target="track-1" aria-label="Précédent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button class="g-next" data-target="track-1" aria-label="Suivant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18l6-6-6-6"/></svg></button>
+      </div>
+    </div>
+    <div class="gallery-track" id="track-1" data-gallery="1"></div>
+  </div>
+</section>
+
+<!-- ============ WORLD MAP ============ -->
+<section id="world">
+  <div class="wrap">
+    <div class="eyebrow">Voyages &amp; scène internationale</div>
+    <h2>À travers l'Europe.</h2>
+    <p class="sub">Compétitions, stages et représentations à l'international — une culture qui voyage, portée par les battles et les rencontres.</p>
+    <svg class="map-svg" id="mapSvg" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+</section>
+
+<!-- ============ GALLERY 2 ============ -->
+<section class="gallery-section" id="gallery-2">
+  <div class="wrap">
+    <div class="gallery-head">
+      <h3>Backstage &amp; Portraits</h3>
+      <div class="gallery-nav">
+        <button class="g-prev" data-target="track-2" aria-label="Précédent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button class="g-next" data-target="track-2" aria-label="Suivant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18l6-6-6-6"/></svg></button>
+      </div>
+    </div>
+    <div class="gallery-track" id="track-2" data-gallery="2"></div>
+  </div>
+</section>
+
+<!-- ============ CLASSES ============ -->
+<section id="classes">
+  <div class="wrap">
+    <div class="eyebrow">Cours de danse</div>
+    <h2 class="section-title">Apprendre avec moi.</h2>
+    <div class="classes-grid">
+      <div class="class-card">
+        <div class="num">01</div>
+        <div>
+          <h4>Cours débutant</h4>
+          <!-- 🔧 À compléter : lieu / horaires / infos -->
+          <p class="meta"><b>Lieu :</b> À préciser<br><b>Horaires :</b> À préciser<br><b>Infos :</b> Bases du breaking, footwork &amp; toprock.</p>
+        </div>
+      </div>
+      <div class="class-card">
+        <div class="num">02</div>
+        <div>
+          <h4>Cours intermédiaire</h4>
+          <p class="meta"><b>Lieu :</b> À préciser<br><b>Horaires :</b> À préciser<br><b>Infos :</b> Power moves, freeze &amp; musicalité.</p>
+        </div>
+      </div>
+      <div class="class-card">
+        <div class="num">03</div>
+        <div>
+          <h4>Perfectionnement</h4>
+          <p class="meta"><b>Lieu :</b> À préciser<br><b>Horaires :</b> À préciser<br><b>Infos :</b> Style, battle training &amp; préparation compétition.</p>
+        </div>
+      </div>
+      <div class="class-card">
+        <div class="num">04</div>
+        <div>
+          <h4>Stages &amp; workshops</h4>
+          <p class="meta"><b>Lieu :</b> À préciser<br><b>Horaires :</b> À préciser<br><b>Infos :</b> Sessions ponctuelles, tous niveaux.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="eyebrow">Contact</div>
+    <h2>On en<br>parle ?</h2>
+    <a class="contact-cta" href="mailto:evana_26@hotmail.fr">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="16" height="16"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      evana_26@hotmail.fr
+    </a>
+    <div class="contact-links">
+      <a href="https://www.instagram.com/ervann__imgz_indgn/" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:evana_26@hotmail.fr">Email</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© <span id="year"></span> Ervann</span>
+  <span>Breaking · Immigrandz Crew · Indigènes Crew · Pro Breaking 26</span>
+</footer>
+
+<!-- ============ LIGHTBOX ============ -->
+<div id="lightbox">
+  <button class="lb-close" id="lbClose" aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="lb-prev" id="lbPrev" aria-label="Précédent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <img id="lbImg" src="" alt="">
+  <button class="lb-next" id="lbNext" aria-label="Suivant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18l6-6-6-6"/></svg></button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+/* ============================================================
+   DONNÉES IMAGES — 🔧 remplacer / ajouter des URLs Cloudinary ici
+   ============================================================ */
+const GALLERY_1 = [
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990132/78840353_2148125305287677_2081277298362810368_o_qhip6i.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990134/439867302_944710444329765_4588338729064776918_n_nt2kc7.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990137/DEMI-FINALE-VAGABOND_KLA_dm1pk2.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990140/DSC03582a_pijzqd.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990141/DSC03590a_nbhx6b.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990143/A7406904_jno7lj.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990145/DSC03592a_jbrr9h.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990146/FB_IMG_1729107316848_ijdcxr.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990147/FB_IMG_1729107322372_e7s3px.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990147/DSC03965a_sq9kqo.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990147/FB_IMG_1729107344649_yakiks.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990149/FB_IMG_1729241892294_kegkb5.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990149/CS-BTL-TeamFR-235_a7ajsf.jpg"
+];
+const GALLERY_2 = [
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990149/DSC03927a_ssenmm.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990151/DSC03547a_nvcftb.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990151/image00009_a2no3m.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990151/image00008_lcfjc4.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990151/DSC03583a_a9q7tm.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990153/image00012_vs2nxs.jpg",
+  /* 🔧 Fichiers .heic convertis en .jpg via Cloudinary pour compatibilité navigateur */
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990158/IMG_7522_evlz4g.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990160/IMG-20231101-WA0001_oczmlg.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990159/IMG_7750_ewhaab.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990165/photo1_v6dpgj.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990165/PHoto3_ly4icu.jpg",
+  "https://res.cloudinary.com/dkm8cbylh/image/upload/v1782990162/IMG-20231101-WA0003_ajxfmb.jpg"
+];
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ---------- build galleries ---------- */
+function buildGallery(track, images){
+  /* la liste est doublée pour permettre un défilement en boucle infinie et sans coupure */
+  const doubled = images.concat(images);
+  doubled.forEach((src,i)=>{
+    const realIndex = i % images.length;
+    const item = document.createElement('div');
+    item.className='gallery-item';
+    item.innerHTML = `<img src="${src}" loading="lazy" alt="Ervann breaking - photo ${realIndex+1}"><span class="idx">${String(realIndex+1).padStart(2,'0')}</span>`;
+    item.addEventListener('click', ()=>openLightbox(images,realIndex));
+    track.appendChild(item);
+  });
+}
+const track1 = document.getElementById('track-1');
+const track2 = document.getElementById('track-2');
+buildGallery(track1, GALLERY_1);
+buildGallery(track2, GALLERY_2);
+
+/* ---------- carrousel motion design : défilement automatique continu + boucle infinie ---------- */
+function initMarquee(track, speed){
+  const state = {paused:false, dragging:false};
+  let lastTime = null;
+
+  function frame(ts){
+    if(lastTime === null) lastTime = ts;
+    const dt = ts - lastTime;
+    lastTime = ts;
+
+    if(!state.paused && !state.dragging){
+      track.scrollLeft += speed * (dt / 16.67);
+    }
+
+    const half = track.scrollWidth / 2;
+    if(half > 0){
+      if(track.scrollLeft >= half) track.scrollLeft -= half;
+      else if(track.scrollLeft < 0) track.scrollLeft += half;
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* pause douce au survol / interaction, reprise automatique ensuite */
+  track.addEventListener('mouseenter', ()=> state.paused = true);
+  track.addEventListener('mouseleave', ()=>{ state.paused = false; });
+  track.addEventListener('touchstart', ()=> state.paused = true, {passive:true});
+  track.addEventListener('touchend', ()=> setTimeout(()=> state.paused = false, 1800), {passive:true});
+
+  return state;
+}
+const marquee1 = initMarquee(track1, 0.55);
+const marquee2 = initMarquee(track2, -0.5); /* sens inverse pour un rendu plus dynamique */
+
+/* ---------- drag-to-scroll (compatible avec le défilement automatique) ---------- */
+[[track1,marquee1],[track2,marquee2]].forEach(([track,state])=>{
+  let isDown=false, startX, scrollLeft;
+  track.addEventListener('mousedown', e=>{
+    isDown=true; state.dragging=true; track.classList.add('dragging');
+    startX = e.pageX - track.offsetLeft; scrollLeft = track.scrollLeft;
+  });
+  ['mouseleave','mouseup'].forEach(evt=> track.addEventListener(evt, ()=>{
+    isDown=false; state.dragging=false; track.classList.remove('dragging');
+  }));
+  track.addEventListener('mousemove', e=>{
+    if(!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - track.offsetLeft;
+    track.scrollLeft = scrollLeft - (x - startX) * 1.4;
+  });
+});
+
+document.querySelectorAll('.g-prev,.g-next').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const track = document.getElementById(btn.dataset.target);
+    const state = track === track1 ? marquee1 : marquee2;
+    const amount = track.querySelector('.gallery-item').offsetWidth + 18;
+    state.paused = true;
+    track.scrollBy({left: btn.classList.contains('g-prev') ? -amount : amount, behavior:'smooth'});
+    clearTimeout(btn._resumeTimer);
+    btn._resumeTimer = setTimeout(()=> state.paused = false, 2200);
+  });
+});
+
+/* ---------- lightbox ---------- */
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+let currentImages = [], currentIndex = 0;
+
+function openLightbox(images, index){
+  currentImages = images; currentIndex = index;
+  lbImg.src = images[index];
+  lightbox.classList.add('active');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  lightbox.classList.remove('active');
+  document.body.style.overflow='';
+}
+function showDelta(delta){
+  currentIndex = (currentIndex + delta + currentImages.length) % currentImages.length;
+  lbImg.style.opacity=0;
+  setTimeout(()=>{ lbImg.src = currentImages[currentIndex]; lbImg.style.opacity=1; }, 120);
+}
+document.getElementById('lbClose').addEventListener('click', closeLightbox);
+document.getElementById('lbPrev').addEventListener('click', ()=>showDelta(-1));
+document.getElementById('lbNext').addEventListener('click', ()=>showDelta(1));
+lightbox.addEventListener('click', e=>{ if(e.target===lightbox) closeLightbox(); });
+lbImg.style.transition='opacity .18s ease';
+document.addEventListener('keydown', e=>{
+  if(!lightbox.classList.contains('active')) return;
+  if(e.key==='Escape') closeLightbox();
+  if(e.key==='ArrowLeft') showDelta(-1);
+  if(e.key==='ArrowRight') showDelta(1);
+});
+
+/* ---------- nav mobile toggle ---------- */
+const navToggle = document.getElementById('nav-toggle');
+const navList = document.getElementById('nav-list');
+navToggle.addEventListener('click', ()=> navList.classList.toggle('open'));
+navList.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> navList.classList.remove('open')));
+
+/* ---------- nav bg on scroll ---------- */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', ()=>{
+  nav.classList.toggle('scrolled', window.scrollY>40);
+});
+
+/* ---------- world map (constellation style) ---------- */
+const countries = [
+  {name:'Angleterre', x:190, y:120},
+  {name:'Belgique',   x:330, y:140},
+  {name:'Hollande',   x:340, y:90},
+  {name:'Allemagne',  x:470, y:130},
+  {name:'Suisse',     x:440, y:230},
+  {name:'Italie',     x:520, y:310},
+  {name:'Espagne',    x:230, y:330},
+  {name:'Russie',     x:780, y:110},
+];
+const hub = {x:340, y:240};
+const svgNS = "http://www.w3.org/2000/svg";
+const mapSvg = document.getElementById('mapSvg');
+
+/* faint dot texture for atmosphere */
+const bgGroup = document.createElementNS(svgNS,'g');
+bgGroup.setAttribute('opacity','.18');
+for(let i=0;i<130;i++){
+  const cx = Math.random()*1000, cy = Math.random()*520;
+  const c = document.createElementNS(svgNS,'circle');
+  c.setAttribute('cx',cx); c.setAttribute('cy',cy); c.setAttribute('r', Math.random()*1+.3);
+  c.setAttribute('fill','#8a897f');
+  bgGroup.appendChild(c);
+}
+mapSvg.appendChild(bgGroup);
+
+/* lines from hub to each country */
+countries.forEach(c=>{
+  const line = document.createElementNS(svgNS,'path');
+  const mx = (hub.x+c.x)/2, my = (hub.y+c.y)/2 - 40;
+  line.setAttribute('d', `M${hub.x},${hub.y} Q${mx},${my} ${c.x},${c.y}`);
+  line.setAttribute('class','map-line');
+  mapSvg.appendChild(line);
+});
+
+/* hub */
+const hubG = document.createElementNS(svgNS,'g');
+hubG.setAttribute('class','map-hub');
+hubG.innerHTML = `<circle cx="${hub.x}" cy="${hub.y}" r="7"></circle><text x="${hub.x+16}" y="${hub.y+4}">FRANCE</text>`;
+mapSvg.appendChild(hubG);
+
+/* country nodes */
+countries.forEach((c,i)=>{
+  const g = document.createElementNS(svgNS,'g');
+  g.setAttribute('class','map-node');
+  const anchor = c.x > 500 ? 'start' : (c.x < 250 ? 'end' : 'middle');
+  const dx = anchor==='end' ? -14 : 14;
+  g.innerHTML = `
+    <circle class="pulse" cx="${c.x}" cy="${c.y}" r="6" style="animation-delay:${i*0.35}s"></circle>
+    <circle class="dot" cx="${c.x}" cy="${c.y}" r="3.4"></circle>
+    <text x="${c.x + (anchor==='middle'?0:dx)}" y="${c.y - 12}" text-anchor="${anchor}">${c.name}</text>
+  `;
+  mapSvg.appendChild(g);
+});
+
+/* ============================================================
+   GSAP — intro + scroll reveals
+   ============================================================ */
+gsap.registerPlugin(ScrollTrigger);
+window.addEventListener('load', ()=>{
+  const tl = gsap.timeline();
+  tl.to('#preloader .loader-fill', {width:'100%', duration:1.1, ease:'power2.inOut'})
+    .to('#preloader img', {opacity:1, scale:1, duration:1, ease:'power3.out'}, '-=0.9')
+    .to('#preloader .logo-glow', {opacity:1, duration:1.3, ease:'power2.out'}, '<')
+    .to('#preloader img, #preloader .logo-glow', {opacity:0, scale:1.06, duration:.6, ease:'power2.in'}, '+=0.35')
+    .to('#preloader', {yPercent:-100, duration:.9, ease:'power4.inOut'}, '-=0.2')
+    .set('#preloader', {display:'none'})
+    .from('#hero h1', {y:60, opacity:0, duration:1, ease:'power4.out'}, '-=0.7')
+    .from('#hero .hero-sub, #hero .hero-tag, #hero .hero-socials', {y:24, opacity:0, duration:.9, stagger:.12, ease:'power3.out'}, '-=0.6');
+
+  // hero parallax
+  gsap.to('.hero-bg', {
+    yPercent: 14, ease:'none',
+    scrollTrigger:{trigger:'#hero', start:'top top', end:'bottom top', scrub:true}
+  });
+
+  // generic reveals
+  gsap.utils.toArray('.reveal').forEach(el=>{
+    gsap.to(el, {
+      opacity:1, y:0, duration:1, ease:'power3.out',
+      scrollTrigger:{trigger:el, start:'top 85%'}
+    });
+  });
+
+  gsap.utils.toArray('.gallery-item').forEach((el,i)=>{
+    gsap.fromTo(el, {opacity:0, y:40}, {
+      opacity:1, y:0, duration:.9, ease:'power3.out', delay:(i%6)*0.05,
+      scrollTrigger:{trigger:el, start:'top 92%'}
+    });
+  });
+
+  gsap.utils.toArray('.class-card').forEach((el,i)=>{
+    gsap.fromTo(el, {opacity:0, y:34}, {
+      opacity:1, y:0, duration:.8, ease:'power3.out', delay:i*0.08,
+      scrollTrigger:{trigger:el, start:'top 90%'}
+    });
+  });
+
+  gsap.fromTo('#mapSvg', {opacity:0}, {opacity:1, duration:1.2, scrollTrigger:{trigger:'#world', start:'top 75%'}});
+  gsap.fromTo('#world h2, #world p.sub, #world .eyebrow', {opacity:0,y:26}, {opacity:1,y:0,duration:.9, stagger:.1, scrollTrigger:{trigger:'#world', start:'top 75%'}});
+
+  gsap.fromTo('#contact h2, #contact .contact-cta, #contact .contact-links, #contact .eyebrow',
+    {opacity:0, y:30}, {opacity:1, y:0, duration:.9, stagger:.12, scrollTrigger:{trigger:'#contact', start:'top 80%'}});
+});
+</script>
+</body>
+</html>
